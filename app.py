@@ -35,5 +35,35 @@ prompt = ChatPromptTemplate.from_template(
 
 # Create vector embeddings from pdf's
 def vector_embedding():
-    return 0
+    if "vectors" not in st.session_state:
+        st.session_state.embeddings = GoogleGenerativeAIEmbeddings(model="model/embedding-001")
+        st.session_state.loader = PyPDFDirectoryLoader("./pdfs") # Data ingestion
+        st.session_state.docs = st.session_state.loader.load() # Load Documents
+        st.session_state.text_splitter = RecursiveCharacterTextSplitter(chunk_size=350, chunk_overlap=120)
+        st.session_state.final_documents = st.session_state.text_splitter.split_documents(st.session_state.docs)
+        st.session_state.vectors = FAISS.from_documents(st.session_state.final_documents, st.session_state.embeddings)
+
+prompt1 = st.text_input("What do you want to ask your documents?")
+
+if st.button("Creating Vector Store"):
+    vector_embedding()
+    st.write("Vector DB is Ready!")
+
+if prompt1:
+    # A retrieval chain to retrieve info from vector store and llm to chat out the reponse
+    document_chain = create_stuff_documents_chain(llm, prompt)
+    retriever = st.session_state.vectors.as_retriever()
+    retrieval_chain = create_retrieval_chain(retriever, document_chain)
+
+    # Response output to UI
+    response = retrieval_chain.invoke({'input':prompt1})
+    st.write(response['answer'])
+
+    # with streamlit expander
+    with st.expander("Document Similarity Search"):
+        # Find relevant chunks
+        for i, doc in enumerate(response["context"]):
+            st.write(doc.page_content)
+            st.write("---------------------------------")
+
 
