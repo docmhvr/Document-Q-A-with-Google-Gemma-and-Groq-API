@@ -7,4 +7,3 @@ langchain
 streamlit
 langchain_community
 python-dotenv
-pypdf
