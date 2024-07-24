@@ -36,7 +36,7 @@ prompt = ChatPromptTemplate.from_template(
 # Create vector embeddings from pdf's
 def vector_embedding():
     if "vectors" not in st.session_state:
-        st.session_state.embeddings = GoogleGenerativeAIEmbeddings(model="model/embedding-001")
+        st.session_state.embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
         st.session_state.loader = PyPDFDirectoryLoader("./pdfs") # Data ingestion
         st.session_state.docs = st.session_state.loader.load() # Load Documents
         st.session_state.text_splitter = RecursiveCharacterTextSplitter(chunk_size=350, chunk_overlap=120)
