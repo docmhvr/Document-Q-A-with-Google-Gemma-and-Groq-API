@@ -1,5 +1,7 @@
 # Document Q/A with Google's Gemma model and Groq API Inference
 
+![Demo Screenshot](demo/Screenshot3.png)
+
 This project implements a Document Q/A application using the Gemma model and Groq inference API with a Streamlit UI. The application allows users to upload documents, ask questions related to the document content, and receive answers powered by the Gemma model. Embeddings are created using GoogleGenerativeAIEmbedding models and inference models are ran using Groq. Groq has many other available models such as Llama3, Gemma2, Mistral and many more. Try as per your need.
 
 ## Features
@@ -37,6 +39,8 @@ Run the Streamlit application:
 ```bash
 streamlit run app.py
 ```
+
+![Demo Screenshot](demo/Screenshot2.png)
 
 ## Contributing
 Contributions are welcome! Please fork this repository and submit pull requests.
